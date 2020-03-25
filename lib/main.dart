@@ -32,32 +32,38 @@ class MyHomePage extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ListView(
+        child: Column(
           children: <Widget>[
             SizedBox(height: 32),
             CustomSearchBar(),
             SizedBox(height: 32),
-            Text(
-              "Collections",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 38,
+            Expanded(
+              child: ListView(
+                children: <Widget>[
+                  Text(
+                    "Collections",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 38,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  CollectionList(),
+                  SizedBox(height: 30),
+                  Text(
+                    "Recommended",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 34,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  PlayList(),
+                ],
               ),
             ),
-            SizedBox(height: 10),
-            CollectionList(),
-            SizedBox(height: 30),
-            Text(
-              "Recommended",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 34,
-              ),
-            ),
-            SizedBox(height: 10),
-            PlayList(),
           ],
         ),
       ),

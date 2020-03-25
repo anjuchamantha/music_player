@@ -120,19 +120,19 @@ class SongPlayScreen extends StatelessWidget {
               FaIcon(
                 FontAwesomeIcons.backward,
                 color: Colors.white,
-                size: 36,
+                size: 34,
               ),
               SizedBox(width: 32),
               FaIcon(
                 FontAwesomeIcons.solidPlayCircle,
                 color: Colors.red[900],
-                size: 58,
+                size: 70,
               ),
               SizedBox(width: 32),
               FaIcon(
                 FontAwesomeIcons.forward,
                 color: Colors.white,
-                size: 36,
+                size: 34,
               ),
             ],
           ),
@@ -143,15 +143,15 @@ class SongPlayScreen extends StatelessWidget {
             children: <Widget>[
               Icon(
                 Icons.bookmark_border,
-                color: Colors.red[900],
+                color: Colors.white,
               ),
               Icon(
                 Icons.shuffle,
-                color: Colors.red[900],
+                color: Colors.white,
               ),
               Icon(
                 Icons.repeat,
-                color: Colors.red[900],
+                color: Colors.white,
               ),
             ],
           ),

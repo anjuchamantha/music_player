@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   image_picker: ^0.6.3+4
   font_awesome_flutter: ^8.7.0
+  random_color: ^1.0.3
 
 dev_dependencies:
   flutter_test:

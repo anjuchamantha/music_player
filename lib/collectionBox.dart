@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/fa_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:music_player/playlistScreen.dart';
 
 class CollectionBox extends StatefulWidget {
   final double width;
@@ -19,13 +21,21 @@ class CollectionBox extends StatefulWidget {
 class _CollectionBoxState extends State<CollectionBox> {
   File imageFile;
   String name;
+  final Random random = new Random();
+
   @override
   Widget build(BuildContext context) {
+    int randomNumber = random.nextInt(50);
+    String _imageurl = "https://picsum.photos/250?image=$randomNumber";
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
       child: GestureDetector(
         onLongPress: () {
           _showChoiceDialog(context);
+        },
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PlaylistScreen()));
         },
         child: Container(
           alignment: Alignment.bottomRight,
@@ -50,7 +60,7 @@ class _CollectionBoxState extends State<CollectionBox> {
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.5), BlendMode.darken),
                 image: (imageFile == null)
-                    ? NetworkImage("https://picsum.photos/seed/picsum/200/300")
+                    ? NetworkImage(_imageurl)
                     : FileImage(imageFile)),
           ),
         ),

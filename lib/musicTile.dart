@@ -1,25 +1,31 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:random_color/random_color.dart';
 
 import 'songPlayScreen.dart';
 
 class ImageTile extends StatelessWidget {
   final String url;
-  ImageTile({this.url});
+  final RandomColor _randomColor = RandomColor();
+
+  ImageTile(this.url);
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       child: Container(
         alignment: Alignment.center,
-        width: 80,
-        height: 80,
+        width: 60,
+        height: 60,
         child: FaIcon(
           FontAwesomeIcons.solidPlayCircle,
           color: Colors.white.withOpacity(0.6),
           size: 40,
         ),
         decoration: BoxDecoration(
+          color: _randomColor.randomColor().withOpacity(.5),
           borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
               fit: BoxFit.cover,
@@ -36,17 +42,22 @@ class MusicTile extends StatelessWidget {
   final String imageurl;
   final String title;
   final String artist;
+  final Random random = new Random();
 
   MusicTile({this.imageurl, this.title, this.artist});
   @override
   Widget build(BuildContext context) {
+    int randomNumber = random.nextInt(50);
+    String _imageurl = (this.imageurl == null)
+        ? "https://picsum.photos/250?image=$randomNumber"
+        : this.imageurl;
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           ImageTile(
-            url: imageurl,
+            _imageurl,
           ),
           Expanded(
             child: InkWell(
@@ -55,11 +66,11 @@ class MusicTile extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            SongPlayScreen(title, artist, imageurl)));
+                            SongPlayScreen(title, artist, _imageurl)));
               },
               child: Container(
-                padding: EdgeInsets.all(10),
-                height: 80,
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                height: 60,
                 color: Colors.transparent,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +97,7 @@ class MusicTile extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 5),
+          SizedBox(width: 10),
           FaIcon(
             FontAwesomeIcons.ellipsisV,
             color: Colors.white,
