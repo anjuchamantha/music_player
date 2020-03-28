@@ -69,12 +69,15 @@ class SongPlayScreen extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 32,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 32,
+                        ),
                       ),
                     ),
                     Text(

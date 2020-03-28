@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/playlistBox.dart';
 import 'package:music_player/searchBar.dart';
+import 'package:music_player/song_loader.dart';
+import 'package:provider/provider.dart';
 
-import 'collectionBox.dart';
 import 'musicTile.dart';
 
 void main() => runApp(MyApp());
@@ -10,14 +13,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Music Player Screen',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.black,
-        accentColor: Colors.red[900],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => SongLoader(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Music Player Screen',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Colors.black,
+          accentColor: Colors.red[900],
+        ),
+        home: MyHomePage(),
       ),
-      home: MyHomePage(),
     );
   }
 }
@@ -38,10 +48,11 @@ class MyHomePage extends StatelessWidget {
             CustomSearchBar(),
             SizedBox(height: 32),
             Expanded(
-              child: ListView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Collections",
+                    "Playlists",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -49,10 +60,10 @@ class MyHomePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10),
-                  CollectionList(),
+                  Playlists(),
                   SizedBox(height: 30),
                   Text(
-                    "Recommended",
+                    "Favourites",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -71,27 +82,35 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class CollectionList extends StatelessWidget {
+class Playlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: <Widget>[
-        CollectionBox(
-          width: 180,
-          height: 150,
-          name: "English Rock",
+    return
+        // Consumer<SongLoader>(
+        //   builder: (context, playListLoader, _) => ListView.builder(
+        //     // shrinkWrap: true,
+        //     // scrollDirection: Axis.horizontal,
+        //     // itemCount: playListLoader.playlists.length,
+        //     itemBuilder: (_, index) => CollectionBox(
+        //       width: 180,
+        //       height: 150,
+        //       name: "English Rock",
+        //     ),
+        //   ),
+        Expanded(
+      child: Consumer<SongLoader>(
+        builder: (context, playListLoader, _) => ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: playListLoader.playlists.length,
+          itemBuilder: (_, index) => PlayListBox(
+            playlistInfo: playListLoader.playlists[index],
+            index: index,
+            width: 180,
+            // height: 150,
+          ),
         ),
-        CollectionBox(
-          width: 180,
-          height: 150,
-          name: "Classical",
-        ),
-        CollectionBox(
-          width: 180,
-          height: 150,
-          name: "Dance Mix",
-        )
-      ],
+      ),
     );
   }
 }
@@ -99,19 +118,21 @@ class CollectionList extends StatelessWidget {
 class PlayList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        MusicTile(
-            title: "Shape of You",
-            artist: "Mr. X",
-            imageurl:
-                "https://i.pinimg.com/originals/67/f5/4c/67f54cb98e2da18c991af3771c33f65c.jpg"),
-        MusicTile(
-          title: "Heart will go on",
-          artist: "Diana Grace",
-          imageurl: "https://wallpaperaccess.com/full/234315.jpg",
-        ),
-      ],
+    return Expanded(
+      child: ListView(
+        children: <Widget>[
+          // MusicTile(
+          //     title: "Shape of You",
+          //     artist: "Mr. X",
+          //     imageurl:
+          //         "https://i.pinimg.com/originals/67/f5/4c/67f54cb98e2da18c991af3771c33f65c.jpg"),
+          // MusicTile(
+          //   title: "Heart will go on",
+          //   artist: "Diana Grace",
+          //   imageurl: "https://wallpaperaccess.com/full/234315.jpg",
+          // ),
+        ],
+      ),
     );
   }
 }

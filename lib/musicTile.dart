@@ -1,16 +1,18 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:random_color/random_color.dart';
 
 import 'songPlayScreen.dart';
 
 class ImageTile extends StatelessWidget {
-  final String url;
+  final Image image;
   final RandomColor _randomColor = RandomColor();
 
-  ImageTile(this.url);
+  ImageTile({this.image});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,7 +33,7 @@ class ImageTile extends StatelessWidget {
               fit: BoxFit.cover,
               colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.5), BlendMode.darken),
-              image: NetworkImage(url)),
+              image: image.image),
         ),
       ),
     );
@@ -39,34 +41,49 @@ class ImageTile extends StatelessWidget {
 }
 
 class MusicTile extends StatelessWidget {
-  final String imageurl;
-  final String title;
-  final String artist;
+  final SongInfo songInfo;
   final Random random = new Random();
 
-  MusicTile({this.imageurl, this.title, this.artist});
+  MusicTile({this.songInfo});
+
+  static Image getAlbumArt(SongInfo songInfo, String url) {
+    try {
+      return Image.file(
+        File(songInfo.albumArtwork),
+      );
+    } catch (e) {
+      print(
+          "=================================================================================================");
+      print(songInfo);
+      print(e);
+      print("type : " + (songInfo.albumArtwork).runtimeType.toString());
+      print(
+          "=================================================================================================");
+      return Image(
+        image: NetworkImage(
+            "https://www.freepnglogos.com/uploads/music-logo-black-and-white-png-21.png"),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     int randomNumber = random.nextInt(50);
-    String _imageurl = (this.imageurl == null)
-        ? "https://picsum.photos/250?image=$randomNumber"
-        : this.imageurl;
+    String _imageurl = "https://picsum.photos/250?image=$randomNumber";
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          ImageTile(
-            _imageurl,
-          ),
+          ImageTile(image: getAlbumArt(songInfo, _imageurl)),
           Expanded(
             child: InkWell(
               onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            SongPlayScreen(title, artist, _imageurl)));
+                        builder: (context) => SongPlayScreen(
+                            songInfo.title, songInfo.artist, _imageurl)));
               },
               child: Container(
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -78,7 +95,8 @@ class MusicTile extends StatelessWidget {
                   children: <Widget>[
                     SizedBox(height: 8),
                     Text(
-                      title,
+                      songInfo.title,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -87,7 +105,8 @@ class MusicTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      artist,
+                      songInfo.artist,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.grey,
                       ),

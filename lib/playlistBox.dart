@@ -2,31 +2,32 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:font_awesome_flutter/fa_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:music_player/playlistScreen.dart';
 
-class CollectionBox extends StatefulWidget {
+class PlayListBox extends StatefulWidget {
+  final PlaylistInfo playlistInfo;
+  final int index;
   final double width;
   final double height;
-  final String name;
 
-  CollectionBox({this.width, this.height, this.name});
+  PlayListBox({this.width, this.height, this.playlistInfo, this.index});
 
   @override
-  _CollectionBoxState createState() => _CollectionBoxState();
+  _PlayListBoxState createState() => _PlayListBoxState();
 }
 
-class _CollectionBoxState extends State<CollectionBox> {
+class _PlayListBoxState extends State<PlayListBox> {
   File imageFile;
-  String name;
-  final Random random = new Random();
 
   @override
   Widget build(BuildContext context) {
-    int randomNumber = random.nextInt(50);
-    String _imageurl = "https://picsum.photos/250?image=$randomNumber";
+    String _imageurl = "https://picsum.photos/250?image=${widget.index + 10}";
+    ImageProvider img =
+        (imageFile == null) ? NetworkImage(_imageurl) : FileImage(imageFile);
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
       child: GestureDetector(
@@ -34,8 +35,11 @@ class _CollectionBoxState extends State<CollectionBox> {
           _showChoiceDialog(context);
         },
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PlaylistScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      PlaylistScreen(widget.playlistInfo, img)));
         },
         child: Container(
           alignment: Alignment.bottomRight,
@@ -44,7 +48,7 @@ class _CollectionBoxState extends State<CollectionBox> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              (name == null) ? widget.name : name,
+              widget.playlistInfo.name,
               textAlign: TextAlign.end,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.6),
@@ -59,9 +63,7 @@ class _CollectionBoxState extends State<CollectionBox> {
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.5), BlendMode.darken),
-                image: (imageFile == null)
-                    ? NetworkImage(_imageurl)
-                    : FileImage(imageFile)),
+                image: img),
           ),
         ),
       ),
@@ -88,9 +90,7 @@ class _CollectionBoxState extends State<CollectionBox> {
   }
 
   _renameCollection(BuildContext context) {
-    setState(() {
-      name = "No name";
-    });
+    setState(() {});
     Navigator.of(context).pop();
   }
 

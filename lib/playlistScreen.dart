@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:music_player/musicTile.dart';
+import 'package:music_player/song_loader.dart';
+import 'package:provider/provider.dart';
 
 class PlaylistScreen extends StatelessWidget {
+  final PlaylistInfo playlistInfo;
+  final ImageProvider img;
+
+  PlaylistScreen(this.playlistInfo, this.img);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +21,7 @@ class PlaylistScreen extends StatelessWidget {
           children: <Widget>[
             SizedBox(height: 45),
             Text(
-              "All Songs",
+              playlistInfo.name,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 44,
@@ -21,20 +29,28 @@ class PlaylistScreen extends StatelessWidget {
                   letterSpacing: 0.4),
             ),
             SizedBox(height: 16),
-            Expanded(
-              child: ListView(
-                children: <Widget>[
-                  MusicTile(
-                    imageurl: null,
-                    artist: "Mr. Y",
-                    title: "Hello Mr Y",
-                  ),
-                  MusicTile(
-                    imageurl: null,
-                    artist: "John Doe",
-                    title: "My name is Khan",
-                  ),
-                ],
+            Consumer<SongLoader>(
+              builder: (context, songLoader, _) => FutureBuilder(
+                future: songLoader.getSongsFromPlaylist(playlistInfo),
+                builder: (context, dataSnapshot) {
+                  if (dataSnapshot.connectionState == ConnectionState.done) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: dataSnapshot.data.length,
+                        itemBuilder: (_, index) => MusicTile(
+                          songInfo: dataSnapshot.data[index],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.all(80.0),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                },
               ),
             ),
           ],
