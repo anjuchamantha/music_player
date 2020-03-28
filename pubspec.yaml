@@ -28,6 +28,7 @@ dependencies:
   random_color: ^1.0.3
   flutter_audio_query: "0.3.4+2"
   provider: ^4.0.4
+  audioplayers: ^0.14.0
 
 dev_dependencies:
   flutter_test:

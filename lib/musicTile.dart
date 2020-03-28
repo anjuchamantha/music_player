@@ -82,8 +82,8 @@ class MusicTile extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SongPlayScreen(
-                            songInfo.title, songInfo.artist, _imageurl)));
+                        builder: (context) =>
+                            SongPlayScreen(songInfo, _imageurl)));
               },
               child: Container(
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),

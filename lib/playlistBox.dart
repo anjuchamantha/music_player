@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
@@ -11,10 +10,8 @@ import 'package:music_player/playlistScreen.dart';
 class PlayListBox extends StatefulWidget {
   final PlaylistInfo playlistInfo;
   final int index;
-  final double width;
-  final double height;
 
-  PlayListBox({this.width, this.height, this.playlistInfo, this.index});
+  PlayListBox({this.playlistInfo, this.index});
 
   @override
   _PlayListBoxState createState() => _PlayListBoxState();

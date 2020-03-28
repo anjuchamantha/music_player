@@ -1,13 +1,15 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:font_awesome_flutter/fa_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SongPlayScreen extends StatelessWidget {
-  final String title;
-  final String artist;
+  final SongInfo songInfo;
   final String url;
+  final AudioPlayer audioPlayer = AudioPlayer(playerId: 'qwyebk2bhe1ky2');
 
-  SongPlayScreen(this.title, this.artist, this.url);
+  SongPlayScreen(this.songInfo, this.url);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +74,7 @@ class SongPlayScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        title,
+                        songInfo.title,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -81,7 +83,7 @@ class SongPlayScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      artist,
+                      songInfo.artist,
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.6),
                         fontSize: 16,
@@ -119,23 +121,39 @@ class SongPlayScreen extends StatelessWidget {
           SizedBox(height: 32),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              FaIcon(
-                FontAwesomeIcons.backward,
-                color: Colors.white,
-                size: 34,
+              IconButton(
+                onPressed: () {},
+                icon: FaIcon(
+                  FontAwesomeIcons.backward,
+                  color: Colors.white,
+                  size: 34,
+                ),
               ),
-              SizedBox(width: 32),
-              FaIcon(
-                FontAwesomeIcons.solidPlayCircle,
-                color: Colors.red[900],
-                size: 70,
+              // SizedBox(width: 32),
+              Container(
+                width: 120,
+                height: 120,
+                child: IconButton(
+                  onPressed: () {
+                    audioPlayer.play(songInfo.filePath);
+                  },
+                  icon: FaIcon(
+                    FontAwesomeIcons.solidPlayCircle,
+                    color: Colors.red[900],
+                    size: 75,
+                  ),
+                ),
               ),
-              SizedBox(width: 32),
-              FaIcon(
-                FontAwesomeIcons.forward,
-                color: Colors.white,
-                size: 34,
+              // SizedBox(width: 32),
+              IconButton(
+                onPressed: () {},
+                icon: FaIcon(
+                  FontAwesomeIcons.forward,
+                  color: Colors.white,
+                  size: 34,
+                ),
               ),
             ],
           ),

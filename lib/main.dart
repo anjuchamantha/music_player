@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:music_player/playlistBox.dart';
 import 'package:music_player/searchBar.dart';
 import 'package:music_player/song_loader.dart';
@@ -85,19 +84,7 @@ class MyHomePage extends StatelessWidget {
 class Playlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return
-        // Consumer<SongLoader>(
-        //   builder: (context, playListLoader, _) => ListView.builder(
-        //     // shrinkWrap: true,
-        //     // scrollDirection: Axis.horizontal,
-        //     // itemCount: playListLoader.playlists.length,
-        //     itemBuilder: (_, index) => CollectionBox(
-        //       width: 180,
-        //       height: 150,
-        //       name: "English Rock",
-        //     ),
-        //   ),
-        Expanded(
+    return Expanded(
       child: Consumer<SongLoader>(
         builder: (context, playListLoader, _) => ListView.builder(
           shrinkWrap: true,
@@ -106,8 +93,6 @@ class Playlists extends StatelessWidget {
           itemBuilder: (_, index) => PlayListBox(
             playlistInfo: playListLoader.playlists[index],
             index: index,
-            width: 180,
-            // height: 150,
           ),
         ),
       ),
