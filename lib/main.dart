@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/allSongsBox.dart';
 import 'package:music_player/playlistBox.dart';
 import 'package:music_player/searchBar.dart';
 import 'package:music_player/song_loader.dart';
@@ -70,7 +71,7 @@ class MyHomePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10),
-                  PlayList(),
+                  AllSongsBox(),
                 ],
               ),
             ),
@@ -95,28 +96,6 @@ class Playlists extends StatelessWidget {
             index: index,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class PlayList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
-        children: <Widget>[
-          // MusicTile(
-          //     title: "Shape of You",
-          //     artist: "Mr. X",
-          //     imageurl:
-          //         "https://i.pinimg.com/originals/67/f5/4c/67f54cb98e2da18c991af3771c33f65c.jpg"),
-          // MusicTile(
-          //   title: "Heart will go on",
-          //   artist: "Diana Grace",
-          //   imageurl: "https://wallpaperaccess.com/full/234315.jpg",
-          // ),
-        ],
       ),
     );
   }

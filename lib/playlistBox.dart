@@ -35,8 +35,8 @@ class _PlayListBoxState extends State<PlayListBox> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      PlaylistScreen(widget.playlistInfo, img)));
+                  builder: (context) => PlaylistScreen(
+                      playlistInfo: widget.playlistInfo, img: img)));
         },
         child: Container(
           alignment: Alignment.bottomRight,
@@ -116,10 +116,7 @@ class _PlayListBoxState extends State<PlayListBox> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text("Change image"),
-                      SizedBox(
-                        height: 60,
-                        width: 50,
-                      ),
+                      Spacer(),
                       IconButton(
                           icon: FaIcon(
                             FontAwesomeIcons.solidImages,
@@ -143,9 +140,7 @@ class _PlayListBoxState extends State<PlayListBox> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text("Remove Collection"),
-                      SizedBox(
-                        height: 60,
-                      ),
+                      Spacer(),
                       IconButton(
                           icon: FaIcon(FontAwesomeIcons.solidTrashAlt),
                           onPressed: () {
@@ -158,9 +153,7 @@ class _PlayListBoxState extends State<PlayListBox> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text("Rename"),
-                      SizedBox(
-                        height: 60,
-                      ),
+                      Spacer(),
                       IconButton(
                           icon: FaIcon(FontAwesomeIcons.pencilAlt),
                           onPressed: () {

@@ -6,25 +6,28 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SongPlayScreen extends StatelessWidget {
   final SongInfo songInfo;
-  final String url;
+  final Image image;
   final AudioPlayer audioPlayer = AudioPlayer(playerId: 'qwyebk2bhe1ky2');
 
-  SongPlayScreen(this.songInfo, this.url);
+  SongPlayScreen(this.songInfo, this.image);
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    print(MediaQuery.of(context).size.height);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
         children: <Widget>[
           Container(
-            height: 500,
+            height: screenHeight * .5,
+            // height: 500,
             child: Stack(
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.pink,
                     image: DecorationImage(
-                      image: NetworkImage(url),
+                      image: image.image,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -92,15 +95,15 @@ class SongPlayScreen extends StatelessWidget {
                     SizedBox(
                       height: 30,
                     ),
-                    Slider(
-                      activeColor: Colors.red[900],
-                      value: 0.2,
-                      onChanged: (double value) {},
-                    )
                   ],
                 )
               ],
             ),
+          ),
+          Slider(
+            activeColor: Colors.red[900],
+            value: 0.2,
+            onChanged: (double value) {},
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -108,7 +111,8 @@ class SongPlayScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  '2:10',
+                  '2.11',
+                  // audioPlayer.getCurrentPosition().toString(),
                   style: TextStyle(color: Colors.white.withOpacity(0.7)),
                 ),
                 Text(
@@ -118,7 +122,8 @@ class SongPlayScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 32),
+          Spacer(),
+          // SizedBox(height: screenHeight * 0.03),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -131,7 +136,6 @@ class SongPlayScreen extends StatelessWidget {
                   size: 34,
                 ),
               ),
-              // SizedBox(width: 32),
               Container(
                 width: 120,
                 height: 120,
@@ -146,7 +150,6 @@ class SongPlayScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              // SizedBox(width: 32),
               IconButton(
                 onPressed: () {},
                 icon: FaIcon(
@@ -157,7 +160,7 @@ class SongPlayScreen extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 32),
+          // SizedBox(height: 32),
           Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

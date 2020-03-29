@@ -52,13 +52,6 @@ class MusicTile extends StatelessWidget {
         File(songInfo.albumArtwork),
       );
     } catch (e) {
-      print(
-          "=================================================================================================");
-      print(songInfo);
-      print(e);
-      print("type : " + (songInfo.albumArtwork).runtimeType.toString());
-      print(
-          "=================================================================================================");
       return Image(
         image: NetworkImage(
             "https://www.freepnglogos.com/uploads/music-logo-black-and-white-png-21.png"),
@@ -70,20 +63,20 @@ class MusicTile extends StatelessWidget {
   Widget build(BuildContext context) {
     int randomNumber = random.nextInt(50);
     String _imageurl = "https://picsum.photos/250?image=$randomNumber";
+    Image image = getAlbumArt(songInfo, _imageurl);
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          ImageTile(image: getAlbumArt(songInfo, _imageurl)),
+          ImageTile(image: image),
           Expanded(
             child: InkWell(
               onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            SongPlayScreen(songInfo, _imageurl)));
+                        builder: (context) => SongPlayScreen(songInfo, image)));
               },
               child: Container(
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),

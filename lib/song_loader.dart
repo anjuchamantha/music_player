@@ -22,8 +22,10 @@ class SongLoader extends ChangeNotifier {
   }
 
   Future<List<SongInfo>> getSongsFromPlaylist(PlaylistInfo playlist) async {
-    Future<List<SongInfo>> songs =
-        audioQuery.getSongsFromPlaylist(playlist: playlist);
-    return songs;
+    if (playlist == null) {
+      return audioQuery.getSongs();
+    } else {
+      return audioQuery.getSongsFromPlaylist(playlist: playlist);
+    }
   }
 }

@@ -8,7 +8,7 @@ class PlaylistScreen extends StatelessWidget {
   final PlaylistInfo playlistInfo;
   final ImageProvider img;
 
-  PlaylistScreen(this.playlistInfo, this.img);
+  PlaylistScreen({this.playlistInfo, this.img});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class PlaylistScreen extends StatelessWidget {
           children: <Widget>[
             SizedBox(height: 45),
             Text(
-              playlistInfo.name,
+              (playlistInfo == null) ? "All songs" : playlistInfo.name,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 44,
