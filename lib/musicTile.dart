@@ -53,16 +53,15 @@ class MusicTile extends StatelessWidget {
       );
     } catch (e) {
       return Image(
-        image: NetworkImage(
-            "https://www.freepnglogos.com/uploads/music-logo-black-and-white-png-21.png"),
+        image: NetworkImage(url),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    int randomNumber = random.nextInt(50);
-    String _imageurl = "https://picsum.photos/250?image=$randomNumber";
+    int randomNumber = random.nextInt(40);
+    String _imageurl = "https://picsum.photos/250?image=${randomNumber + 10}";
     Image image = getAlbumArt(songInfo, _imageurl);
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),

@@ -47,7 +47,7 @@ class MyHomePage extends StatelessWidget {
             SizedBox(height: 32),
             CustomSearchBar(),
             SizedBox(height: 32),
-            Expanded(
+            Flexible(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -85,7 +85,7 @@ class MyHomePage extends StatelessWidget {
 class Playlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Flexible(
       child: Consumer<SongLoader>(
         builder: (context, playListLoader, _) => ListView.builder(
           shrinkWrap: true,
