@@ -190,7 +190,7 @@ class PlayButton extends StatelessWidget {
                     )
                   : FaIcon(
                       FontAwesomeIcons.solidPlayCircle,
-                      color: Colors.red[900],
+                      color: Colors.red[200],
                       size: 75,
                     ),
             );

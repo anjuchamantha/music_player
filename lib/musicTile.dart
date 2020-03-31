@@ -65,7 +65,8 @@ class MusicTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SongInfo songInfo = playlist[index];
-    final MusicPlayerCore player = Provider.of<MusicPlayerCore>(context);
+    final MusicPlayerCore player =
+        Provider.of<MusicPlayerCore>(context, listen: false);
 
     int randomNumber = random.nextInt(40);
     String _imageurl = "https://picsum.photos/250?image=${randomNumber + 10}";
