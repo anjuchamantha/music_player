@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/allSongsBox.dart';
+import 'package:music_player/core/musicPlayerCore.dart';
+import 'package:music_player/core/song_loader.dart';
 import 'package:music_player/playlistBox.dart';
 import 'package:music_player/searchBar.dart';
-import 'package:music_player/song_loader.dart';
 import 'package:provider/provider.dart';
 
 import 'musicTile.dart';
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => SongLoader(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MusicPlayerCore(),
         ),
       ],
       child: MaterialApp(
@@ -47,7 +51,7 @@ class MyHomePage extends StatelessWidget {
             SizedBox(height: 32),
             CustomSearchBar(),
             SizedBox(height: 32),
-            Flexible(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -85,7 +89,7 @@ class MyHomePage extends StatelessWidget {
 class Playlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return Expanded(
       child: Consumer<SongLoader>(
         builder: (context, playListLoader, _) => ListView.builder(
           shrinkWrap: true,

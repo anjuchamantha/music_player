@@ -41,10 +41,12 @@ class ImageTile extends StatelessWidget {
 }
 
 class MusicTile extends StatelessWidget {
-  final SongInfo songInfo;
+  final List<SongInfo> playlist;
+  final int index;
+
   final Random random = new Random();
 
-  MusicTile({this.songInfo});
+  MusicTile({this.playlist, this.index});
 
   static Image getAlbumArt(SongInfo songInfo, String url) {
     try {
@@ -60,9 +62,12 @@ class MusicTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SongInfo songInfo = playlist[index];
+
     int randomNumber = random.nextInt(40);
     String _imageurl = "https://picsum.photos/250?image=${randomNumber + 10}";
     Image image = getAlbumArt(songInfo, _imageurl);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       child: Row(
@@ -75,7 +80,9 @@ class MusicTile extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SongPlayScreen(songInfo, image)));
+                      builder: (context) =>
+                          SongPlayScreen(playlist, index, image),
+                    ));
               },
               child: Container(
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),

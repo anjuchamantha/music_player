@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:music_player/core/musicPlayerCore.dart';
+import 'package:music_player/core/song_loader.dart';
 import 'package:music_player/musicTile.dart';
-import 'package:music_player/song_loader.dart';
 import 'package:provider/provider.dart';
 
 class PlaylistScreen extends StatelessWidget {
@@ -12,6 +13,7 @@ class PlaylistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MusicPlayerCore player = Provider.of<MusicPlayerCore>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Padding(
@@ -34,11 +36,16 @@ class PlaylistScreen extends StatelessWidget {
                 future: songLoader.getSongsFromPlaylist(playlistInfo),
                 builder: (context, dataSnapshot) {
                   if (dataSnapshot.connectionState == ConnectionState.done) {
+                    // print("song list : ${dataSnapshot.data}");
+                    player.queue = dataSnapshot.data;
+                    // print("song queue : ${player.queue}");
                     return Expanded(
                       child: ListView.builder(
                         itemCount: dataSnapshot.data.length,
                         itemBuilder: (_, index) => MusicTile(
-                          songInfo: dataSnapshot.data[index],
+                          playlist: dataSnapshot.data,
+                          index: index,
+                          // songInfo: dataSnapshot.data[index],
                         ),
                       ),
                     );

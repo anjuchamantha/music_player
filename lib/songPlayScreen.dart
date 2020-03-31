@@ -3,15 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:font_awesome_flutter/fa_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:music_player/core/musicPlayerCore.dart';
+import 'package:music_player/time_slider.dart';
+import 'package:provider/provider.dart';
 
 class SongPlayScreen extends StatelessWidget {
-  final SongInfo songInfo;
+  // final PlaylistInfo playlistInfo;
+  final List<SongInfo> playlist;
+  final int index;
   final Image image;
-  final AudioPlayer audioPlayer = AudioPlayer(playerId: 'qwyebk2bhe1ky2');
 
-  SongPlayScreen(this.songInfo, this.image);
+  SongPlayScreen(this.playlist, this.index, this.image);
+
   @override
   Widget build(BuildContext context) {
+    final MusicPlayerCore musicPlayerCore =
+        Provider.of<MusicPlayerCore>(context);
+
+    musicPlayerCore.setCurrentSong(index);
+    SongInfo songInfo = musicPlayerCore.currentSong;
+    // Image image = songInfo.albumArtwork;
+
     double screenHeight = MediaQuery.of(context).size.height;
     print(MediaQuery.of(context).size.height);
     return Scaffold(
@@ -20,7 +32,6 @@ class SongPlayScreen extends StatelessWidget {
         children: <Widget>[
           Container(
             height: screenHeight * .5,
-            // height: 500,
             child: Stack(
               children: <Widget>[
                 Container(
@@ -55,13 +66,13 @@ class SongPlayScreen extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Text(
-                                "PLAYLIST",
+                                "ALBUM",
                                 style: TextStyle(
                                   color: Colors.white.withOpacity(0.6),
                                 ),
                               ),
                               Text(
-                                "Best Vibes of the Week",
+                                songInfo.album,
                                 style: TextStyle(color: Colors.white),
                               )
                             ],
@@ -100,36 +111,16 @@ class SongPlayScreen extends StatelessWidget {
               ],
             ),
           ),
-          Slider(
-            activeColor: Colors.red[900],
-            value: 0.2,
-            onChanged: (double value) {},
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '2.11',
-                  // audioPlayer.getCurrentPosition().toString(),
-                  style: TextStyle(color: Colors.white.withOpacity(0.7)),
-                ),
-                Text(
-                  '-3:56',
-                  style: TextStyle(color: Colors.white.withOpacity(0.7)),
-                ),
-              ],
-            ),
-          ),
+          TimeSlider(audioPlayer: musicPlayerCore.audioPlayer),
           Spacer(),
-          // SizedBox(height: screenHeight * 0.03),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  musicPlayerCore.prevSong();
+                },
                 icon: FaIcon(
                   FontAwesomeIcons.backward,
                   color: Colors.white,
@@ -141,17 +132,27 @@ class SongPlayScreen extends StatelessWidget {
                 height: 120,
                 child: IconButton(
                   onPressed: () {
-                    audioPlayer.play(songInfo.filePath);
+                    print("Song index : $index");
+                    musicPlayerCore.play();
                   },
-                  icon: FaIcon(
-                    FontAwesomeIcons.solidPlayCircle,
-                    color: Colors.red[900],
-                    size: 75,
-                  ),
+                  icon: (musicPlayerCore.audioPlayer.state ==
+                          AudioPlayerState.PLAYING)
+                      ? FaIcon(
+                          FontAwesomeIcons.solidPauseCircle,
+                          color: Colors.red[900],
+                          size: 75,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.solidPlayCircle,
+                          color: Colors.red[900],
+                          size: 75,
+                        ),
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  musicPlayerCore.nextSong();
+                },
                 icon: FaIcon(
                   FontAwesomeIcons.forward,
                   color: Colors.white,
@@ -160,7 +161,6 @@ class SongPlayScreen extends StatelessWidget {
               ),
             ],
           ),
-          // SizedBox(height: 32),
           Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
