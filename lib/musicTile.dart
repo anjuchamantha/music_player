@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:music_player/core/musicPlayerCore.dart';
+import 'package:provider/provider.dart';
 import 'package:random_color/random_color.dart';
 
 import 'songPlayScreen.dart';
@@ -63,6 +65,7 @@ class MusicTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SongInfo songInfo = playlist[index];
+    final MusicPlayerCore player = Provider.of<MusicPlayerCore>(context);
 
     int randomNumber = random.nextInt(40);
     String _imageurl = "https://picsum.photos/250?image=${randomNumber + 10}";
@@ -77,11 +80,11 @@ class MusicTile extends StatelessWidget {
           Expanded(
             child: InkWell(
               onTap: () {
+                player.playNow(index);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          SongPlayScreen(playlist, index, image),
+                      builder: (context) => SongPlayScreen(image),
                     ));
               },
               child: Container(

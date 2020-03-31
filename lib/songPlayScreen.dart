@@ -9,19 +9,16 @@ import 'package:provider/provider.dart';
 
 class SongPlayScreen extends StatelessWidget {
   // final PlaylistInfo playlistInfo;
-  final List<SongInfo> playlist;
-  final int index;
   final Image image;
 
-  SongPlayScreen(this.playlist, this.index, this.image);
+  SongPlayScreen(this.image);
 
   @override
   Widget build(BuildContext context) {
-    final MusicPlayerCore musicPlayerCore =
-        Provider.of<MusicPlayerCore>(context);
+    final MusicPlayerCore player = Provider.of<MusicPlayerCore>(context);
 
-    musicPlayerCore.setCurrentSong(index);
-    SongInfo songInfo = musicPlayerCore.currentSong;
+    SongInfo songInfo = player.currentSong;
+    // SongInfo songInfo = playlist[index];
     // Image image = songInfo.albumArtwork;
 
     double screenHeight = MediaQuery.of(context).size.height;
@@ -111,7 +108,7 @@ class SongPlayScreen extends StatelessWidget {
               ],
             ),
           ),
-          TimeSlider(audioPlayer: musicPlayerCore.audioPlayer),
+          TimeSlider(audioPlayer: player.audioPlayer),
           Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -119,7 +116,7 @@ class SongPlayScreen extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 onPressed: () {
-                  musicPlayerCore.prevSong();
+                  player.prevSong();
                 },
                 icon: FaIcon(
                   FontAwesomeIcons.backward,
@@ -127,31 +124,10 @@ class SongPlayScreen extends StatelessWidget {
                   size: 34,
                 ),
               ),
-              Container(
-                width: 120,
-                height: 120,
-                child: IconButton(
-                  onPressed: () {
-                    print("Song index : $index");
-                    musicPlayerCore.play();
-                  },
-                  icon: (musicPlayerCore.audioPlayer.state ==
-                          AudioPlayerState.PLAYING)
-                      ? FaIcon(
-                          FontAwesomeIcons.solidPauseCircle,
-                          color: Colors.red[900],
-                          size: 75,
-                        )
-                      : FaIcon(
-                          FontAwesomeIcons.solidPlayCircle,
-                          color: Colors.red[900],
-                          size: 75,
-                        ),
-                ),
-              ),
+              PlayButton(audioPlayer: player.audioPlayer),
               IconButton(
                 onPressed: () {
-                  musicPlayerCore.nextSong();
+                  player.nextSong();
                 },
                 icon: FaIcon(
                   FontAwesomeIcons.forward,
@@ -182,6 +158,43 @@ class SongPlayScreen extends StatelessWidget {
           SizedBox(height: 32)
         ],
       ),
+    );
+  }
+}
+
+class PlayButton extends StatelessWidget {
+  final AudioPlayer audioPlayer;
+
+  const PlayButton({
+    @required this.audioPlayer,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 120,
+      height: 120,
+      child: StreamBuilder(
+          stream: audioPlayer.onPlayerStateChanged,
+          builder: (context, playerState) {
+            return IconButton(
+              onPressed: () {
+                // print("Song index : $index");
+                Provider.of<MusicPlayerCore>(context, listen: false).play();
+              },
+              icon: (playerState.data == AudioPlayerState.PLAYING)
+                  ? FaIcon(
+                      FontAwesomeIcons.solidPauseCircle,
+                      color: Colors.red[900],
+                      size: 75,
+                    )
+                  : FaIcon(
+                      FontAwesomeIcons.solidPlayCircle,
+                      color: Colors.red[900],
+                      size: 75,
+                    ),
+            );
+          }),
     );
   }
 }

@@ -40,12 +40,14 @@ class PlaylistScreen extends StatelessWidget {
                     player.queue = dataSnapshot.data;
                     // print("song queue : ${player.queue}");
                     return Expanded(
-                      child: ListView.builder(
-                        itemCount: dataSnapshot.data.length,
-                        itemBuilder: (_, index) => MusicTile(
-                          playlist: dataSnapshot.data,
-                          index: index,
-                          // songInfo: dataSnapshot.data[index],
+                      child: Consumer<MusicPlayerCore>(
+                        builder: (context, player, _) => ListView.builder(
+                          itemCount: player.queue.length,
+                          itemBuilder: (_, index) => MusicTile(
+                            playlist: player.queue,
+                            index: index,
+                            // songInfo: dataSnapshot.data[index],
+                          ),
                         ),
                       ),
                     );
